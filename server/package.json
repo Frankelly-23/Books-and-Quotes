@@ -1,0 +1,22 @@
+{
+  "name": "WiseQuotes",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified (MMG)\" && exit 1",
+    "compile": "node WiseQuotes.js"
+  },
+  "keywords": [],
+  "author": "- Frankelly Cordero",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "express": "^5.2.1",
+    "express-session": "^1.19.0",
+    "mongoose": "^9.2.0"
+  },
+  "devDependencies": {
+    "express-handlebars": "^8.0.4"
+  }
+}
