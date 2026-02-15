@@ -1,22 +1,6 @@
-
 import { useState, useEffect } from "react"
-
-export function BookItem({ book }) {
-  const [isOpinionVisible, setIsOpinionVisible] = useState(false);
-
-  function handleOpinionClick() {
-    setIsOpinionVisible(!isOpinionVisible);
-  }
-
-  return (
-    <li>
-      <i onClick={handleOpinionClick} style={{ cursor: 'pointer' }}>
-        {book.title} - {book.author}
-      </i>
-      {isOpinionVisible && <p style={{ color: "white", background: "rgba(255, 255, 255, 0.05)", padding:"4px", borderRadius:"5px"  }}>{book.opinion}</p>}
-    </li>
-  );
-}
+import { BookItem } from "../hooks/bookItem"
+import { useInfiniteScroll } from "../hooks/useInfiniteScroll"
 
 function BooksFromTheServer() {
   const [books, setBooks] = useState([])
@@ -25,16 +9,18 @@ function BooksFromTheServer() {
         fetch("/api/to-read")
           .then(resp => resp.json())
           .then(data => setBooks(data)) 
-  }, []) 
-  
-  return (
+    }, []) 
+
+    const { displayedItems, hasMore, loaderRef } = useInfiniteScroll(books, 5, 5)
+    
+    return (
     <>
     {
-        books.map((book, index) => (
+        displayedItems.map((book, index) => (
           <BookItem key={index} book={book} />
         ))
-     
     }
+    {hasMore && <div ref={loaderRef} style={{ height: "20px" }} />}
     </>
   )
 }

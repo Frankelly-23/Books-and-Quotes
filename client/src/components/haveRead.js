@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react"
-import { BookItem } from "./toRead"
+import { BookItem } from "../hooks/bookItem"
+import { useInfiniteScroll } from "../hooks/useInfiniteScroll"
 
 function BooksFromTheServer() {
   const [books, setBooks] = useState([])
@@ -10,13 +11,16 @@ function BooksFromTheServer() {
       .then(setBooks)
   }, [])
    
+  const { displayedItems, hasMore, loaderRef } = useInfiniteScroll(books, 5, 5)
+    
   return (
     <>
     {
-      books.map((book, index) => (
+      displayedItems.map((book, index) => (
         <BookItem key={index} book={book}/> 
-    ))
+      ))
     }
+    {hasMore && <div ref={loaderRef} style={{ height: "20px" }} />}
     </>
   )
 }
